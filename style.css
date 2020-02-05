@@ -1,5 +1,0 @@
-/* to sharpen the edges of the images */
-img {
-    image-rendering: crisp-edges;
-    image-rendering: pixelated;
-}
