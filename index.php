@@ -9,46 +9,94 @@ error_reporting(E_ALL);
 if (!empty($_GET)) {
 
     $pokeName=$_GET['pname'];
-    //echo $PokeName;
 
   $get = file_get_contents("https://pokeapi.co/api/v2/pokemon/".$pokeName);
     $response = json_decode($get, true); //because of true, it's in an array
-    //var_dump($response);
-    //
-    echo '<p>Pokemon: '.($response['forms'][0]['name']).'</p>';
-    echo '<img src="'.($response['sprites']['front_default']).'" width="250" />';
+   //var_dump($response);
+    // get and show name
+    echo '<H1>'.($response['forms'][0]['name']).'</H1>';
+    // put it in a var
+    $namePoke=($response['forms'][0]['name']);
+    // get and show image
+    if($namePoke=="gyarados"){
+      //  top: 109px;
+    //margin-left:-290p
+        echo '<img src="'.($response['sprites']['front_default']).'" width="130" id="bigPokemon" style="" />';
+    }else{
+        echo '<img src="'.($response['sprites']['front_default']).'" width="230" id="bigPokemon" />';
+    }
+    // make the div
+    echo '<div id="moves">';
+    // make the list
     echo "<ul>";
+
     $random_keys = array_rand($response['moves'], 4);
-    echo '<li>'.($response['moves'][$random_keys[0]]['move']['name']).'</li>';
-    echo '<li>'.($response['moves'][$random_keys[1]]['move']['name']).'</li>';
-    echo '<li>'.($response['moves'][$random_keys[2]]['move']['name']).'</li>';
-    echo '<li>'.($response['moves'][$random_keys[3]]['move']['name']).'</li>';
+
+    for ($x=0;$x<4;$x++){
+        $move=($response['moves'][$random_keys[$x]]['move']['name']);
+        if (empty($move)) {
+            echo '<li></li>';
+        }else {
+            echo '<li>' . $move . '</li>';
+        }
+    }
     echo "</ul>";
+    echo "</div>";
 
   $id_string=($response['forms'][0]['url']);
   $id=substr($id_string,-2,-1);
 
-  echo $id;
+  echo '<p id="id">'.$id."</p>";
 
-    $get_2= file_get_contents("https://pokeapi.co/api/v2/evolution-chain/".$id);
+   // $get_2= file_get_contents("https://pokeapi.co/api/v2/pokemon-species/".$id);
    // $get_2= file_get_contents("https://pokeapi.co/api/v2/pokemon/type/3/".$id);
-    $response_2 = json_decode($get_2, true); //because of true, it's in an array
-    var_dump($response_2);
+    //$response_2 = json_decode($get_2, true); //because of true, it's in an array
+    //var_dump($response_2);
+
+  /*  async function getPrevo() {
+    let response = await fetch("https://pokeapi.co/api/v2/pokemon-species/" + input.value.toLowerCase() + "");
+    // let response = await fetch(`https://pokeapi.co/api/v2/pokemon-species/${input.value.toLowerCase()}`);
+    let evolutionData = await response.json();
+
+    console.log(evolutionData);
+    if (evolutionData.evolves_from_species == null) {
+        document.getElementById('prevEvolution').innerHTML = "";
+        evoImage.setAttribute("src", "")
+    } else {
+        const preName = evolutionData.evolves_from_species.name;
+        document.getElementById('prevEvolution').innerHTML = "Previous Evolution: " + preName;
+        preForm(preName);
+    }
+
+    nextEvo = evolutionData.evolution_chain.url;
+    getNext(nextEvo);
+}
+
+async function preForm(prevolution) {
+    let response = await fetch(`https://pokeapi.co/api/v2/pokemon/${prevolution}`);
+    let preData = await response.json();
+    console.log(preData);
+    let pokemonSprite = preData.sprites.front_default;
+
+    evoImage.setAttribute("src", pokemonSprite);
+    // co */
 }else{
-    echo "geen data van de form ontvangen!";
+    echo "didn't receive any data from the form";
 }
 ?>
 <html>
 <head>
-    <style>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
 
-    </style>
+    <title>Another poke-ding</title>
+    <link href="assets/style.css" rel="stylesheet">
 </head>
 <body>
 <form action="<?php echo htmlspecialchars($_SERVER["PHP_SELF"]); ?>" method="get">
 
-    Add your Pokemon name here: <input type="text" name="pname">
-    <input type="submit" value="search">
+    <p id="instruction">Add the Pokemon name here >></p> <br /><input type="text" name="pname" id="inputField">
+    <input type="submit" value="search" id="send">
 </form>
 </body>
 </html>
