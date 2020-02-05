@@ -67,8 +67,10 @@ H1{
     font-size: 1.7em;
     left:50%;
     top:81px;
-    margin-left: -171px;
+    margin-left: -179px;
     color: white;
+    text-align:right;
+    width: 140px;
 }
 #id{
     position: absolute;
@@ -89,7 +91,6 @@ li{
     font-weight: bold;
     text-align: center;
     width:130px;
-
 }
 div#moves {
     width:400px;
@@ -105,5 +106,17 @@ div#moves {
     left:50%;
     top: 109px;
     margin-left:-290px;
-
+}
+#noData_error{
+    position: absolute;
+    left:50%;
+    top:109px;
+    margin-left:290px;
+    width:400px;
+    height:78px;
+    border:red 2px solid;
+    background-color: #F6B02B;
+    color:red;
+    font-weight: bold;
+    font-size: 1em;
 }
