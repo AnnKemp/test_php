@@ -100,7 +100,6 @@ div#moves {
     margin-left:60px;
     top:256px;
     padding: 0;
-    border: green solid 2px;
 }
 #bigPokemon{
     position: absolute;
@@ -109,15 +108,17 @@ div#moves {
     margin-left:-290px;
 }
 #smallOne_name{
-    border:red solid 1px;
+    position:absolute;
+    left:50%;
+    top: 172px;
+    margin-left:128px;
 }
 /*echo '<img src="'.($response_smallOne['sprites']['front_default']).'" width="230" id="smallPokemon" />'; */
 #smallPokemon{
     position:absolute;
     left:50%;
-    top: 109px;
+    top: 80px;
     margin-left:0;
-    border: red 1px solid;
 }
 #noData_error{
     position: absolute;
