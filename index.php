@@ -17,19 +17,20 @@ if (!empty($_GET)) {
     echo '<H1>'.($response['forms'][0]['name']).'</H1>';
     // put it in a var
     $namePoke=($response['forms'][0]['name']);
-    // get and show image
-    if(($namePoke=="gyarados")||($namePoke=="venusaur")||($namePoke=="charmeleon")){ // fixing an esthetic problem some pokemons are too big
+    //$nrPoke=($response['id']);
+
+
+    if(($namePoke=="gyarados")||($namePoke=="ivysaur")||($namePoke=="")){ // fixing an esthetic problem some pokemons are too big
         echo '<img src="'.($response['sprites']['front_default']).'" width="130" id="bigPokemon" style="top: 150px; margin-left:-240px" />';
     }else{
+        // get and show image
         echo '<img src="'.($response['sprites']['front_default']).'" width="230" id="bigPokemon" />';
     }
     // make the div
     echo '<div id="moves">';
     // make the list
     echo "<ul>";
-
     $random_keys = array_rand($response['moves'], 4);
-
     for ($x=0;$x<4;$x++){
         $move=($response['moves'][$random_keys[$x]]['move']['name']);
         if (empty($move)) {
@@ -54,22 +55,34 @@ $response_next = json_decode($get_next, true);    // because of true, it's in an
 //var_dump($response_next);
 
    $checkIf_data=$response_next['evolves_from_species']['name'];
+    //nextForm = nextData.chain.evolves_to[0].evolves_to[0].species.name;
+
+    // om die grote op te halen
+   // $bigPoke=$response_next[chain]['evolves_to_[0].evolves_to[0].species']['name'];
+   // echo "naam grote poke".$bigPoke;
 
    if(empty($checkIf_data)) {
         echo '<p id="smallOne_name"></p>';
     } else {
        // get in this get-date name of the small one
        $evolves_name=$response_next['evolves_from_species']['name'];
-       echo '<p id="smallOne_name">'.$evolves_name.'</p>';
 
        // do again a get with this name to get the sprite/picture of the small one
        $get_smallOne= file_get_contents("https://pokeapi.co/api/v2/pokemon/".$evolves_name);
        $response_smallOne = json_decode($get_smallOne, true);    // because of true, it's in an array
 //var_dump($response_smallOne);
 
-       // put the link into an img src to show it
-       echo '<img src="'.($response_smallOne['sprites']['front_default']).'" width="230" id="smallPokemon" />';
-    }
+       if(($evolves_name=="magikarp")||($evolves_name=="bulbasaur")||($evolves_name=="venusaur")){ // fixing an esthetic problem some pokemons are too big
+           echo '<img src="'.($response_smallOne['sprites']['front_default']).'" width="150" id="smallPokemon" style="top:113px;
+    margin-left:32px;" />';
+           echo '<p id="smallOne_name" style="margin-left:146px; top: 177px;">'.$evolves_name.'</p>';
+       }else{
+           echo '<img src="'.($response_smallOne['sprites']['front_default']).'" width="230" id="smallPokemon" />';
+           echo '<p id="smallOne_name">'.$evolves_name.'</p>';
+       }
+
+
+   }
 }else{
     echo "<p id='noData_error'>Please fill in a name and click on the round blue 'search' button</p>";
 }
